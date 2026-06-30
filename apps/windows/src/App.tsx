@@ -7,7 +7,7 @@ import { Sidebar } from "./components/Sidebar";
 import styles from "./App.module.css";
 
 export default function App() {
-  const { settings, updateSettings } = useBrowserStore();
+  const { settings } = useBrowserStore();
 
   useEffect(() => {
     const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");

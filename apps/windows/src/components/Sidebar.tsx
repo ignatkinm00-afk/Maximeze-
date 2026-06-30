@@ -36,7 +36,7 @@ export function Sidebar() {
 }
 
 function BookmarksPanel() {
-  const { bookmarks, bookmarkFolders, getActiveTab, navigate, removeBookmark } = useBrowserStore();
+  const { bookmarks, getActiveTab, navigate, removeBookmark } = useBrowserStore();
 
   if (bookmarks.length === 0) {
     return <Empty message="Нет закладок" />;

@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import { useBrowserStore } from "../store/browserStore";
 import { NewTabPage } from "./NewTabPage";
 import styles from "./WebContent.module.css";
@@ -47,13 +47,11 @@ interface WebViewProps {
   onLoadEnd: (url: string, title: string) => void;
 }
 
-function WebView({ tabId, url, onTitleChange, onFaviconChange, onLoadStart, onLoadEnd }: WebViewProps) {
+function WebView({ tabId, url, onTitleChange: _onTitleChange, onFaviconChange: _onFaviconChange, onLoadStart, onLoadEnd }: WebViewProps) {
   // In Tauri, the actual web content is rendered by the native WebView2.
   // This component represents the placeholder in the React tree; in production
   // Tauri's webview is layered underneath the UI overlay.
   // For the development preview, we render an iframe as a stand-in.
-  const iframeRef = useRef<HTMLIFrameElement>(null);
-
   useEffect(() => {
     onLoadStart();
     // Simulate load completion after a tick (in production this comes from Tauri events)

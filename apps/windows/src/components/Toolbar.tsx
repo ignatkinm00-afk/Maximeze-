@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import React from "react";
 import { useBrowserStore } from "../store/browserStore";
 import { Omnibox } from "./Omnibox";
 import styles from "./Toolbar.module.css";
