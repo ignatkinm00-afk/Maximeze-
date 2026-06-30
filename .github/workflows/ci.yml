@@ -28,6 +28,8 @@ jobs:
 
       - name: Lint core-engine
         working-directory: packages/core-engine
+        env:
+          ESLINT_USE_FLAT_CONFIG: "false"
         run: pnpm lint
 
       - name: Typecheck core-engine
@@ -36,10 +38,14 @@ jobs:
 
       - name: Lint design-system
         working-directory: packages/design-system
+        env:
+          ESLINT_USE_FLAT_CONFIG: "false"
         run: pnpm lint
 
       - name: Lint windows frontend
         working-directory: apps/windows
+        env:
+          ESLINT_USE_FLAT_CONFIG: "false"
         run: pnpm lint
 
       - name: Typecheck windows frontend
