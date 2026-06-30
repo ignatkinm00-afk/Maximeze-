@@ -6,10 +6,10 @@ import styles from "./NewTabPage.module.css";
 const QUICK_LINKS = [
   { title: "GitHub", url: "https://github.com", emoji: "🐙" },
   { title: "YouTube", url: "https://youtube.com", emoji: "▶️" },
-  { title: "Wikipedia", url: "https://wikipedia.org", emoji: "📖" },
+  { title: "Википедия", url: "https://ru.wikipedia.org", emoji: "📖" },
   { title: "Reddit", url: "https://reddit.com", emoji: "🤖" },
-  { title: "Hacker News", url: "https://news.ycombinator.com", emoji: "🔶" },
-  { title: "MDN Web Docs", url: "https://developer.mozilla.org", emoji: "📘" },
+  { title: "ВКонтакте", url: "https://vk.com", emoji: "💙" },
+  { title: "Документация MDN", url: "https://developer.mozilla.org/ru", emoji: "📘" },
 ];
 
 export function NewTabPage() {
@@ -45,7 +45,7 @@ export function NewTabPage() {
             <input
               className={styles.searchInput}
               type="text"
-              placeholder="Search or type a URL"
+              placeholder="Поиск или введите адрес сайта"
               value={searchInput}
               onChange={(e) => setSearchInput(e.target.value)}
               autoFocus
@@ -72,7 +72,7 @@ export function NewTabPage() {
 
 function getGreeting(): string {
   const hour = new Date().getHours();
-  if (hour < 12) return "Good morning";
-  if (hour < 18) return "Good afternoon";
-  return "Good evening";
+  if (hour < 12) return "Доброе утро";
+  if (hour < 18) return "Добрый день";
+  return "Добрый вечер";
 }

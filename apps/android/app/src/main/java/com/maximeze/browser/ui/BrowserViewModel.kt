@@ -134,7 +134,8 @@ class BrowserViewModel(application: Application) : AndroidViewModel(application)
                 }
             )
         }
-        if (!_uiState.value.tabs.find { it.id == tabId }?.isIncognito!!) {
+        val isIncognito = _uiState.value.tabs.find { it.id == tabId }?.isIncognito ?: false
+        if (!isIncognito) {
             recordVisit(url, title)
         }
     }

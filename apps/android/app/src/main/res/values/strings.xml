@@ -1,4 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Maximeze</string>
+    <string name="new_tab">Новая вкладка</string>
+    <string name="close_tab">Закрыть вкладку</string>
+    <string name="search_or_enter_url">Поиск или адрес сайта</string>
+    <string name="bookmarks">Закладки</string>
+    <string name="history">История</string>
+    <string name="downloads">Загрузки</string>
+    <string name="settings">Настройки</string>
+    <string name="add_bookmark">Добавить закладку</string>
+    <string name="remove_bookmark">Удалить закладку</string>
+    <string name="clear_history">Очистить историю</string>
+    <string name="incognito">Инкогнито</string>
+    <string name="tab_count">Вкладки: %1$d</string>
+    <string name="open_tabs">Открыть вкладки</string>
+    <string name="no_bookmarks">Нет закладок</string>
+    <string name="no_history">История пуста</string>
+    <string name="no_downloads">Нет загрузок</string>
+    <string name="back">Назад</string>
+    <string name="forward">Вперёд</string>
+    <string name="refresh">Обновить</string>
+    <string name="go">Перейти</string>
+    <string name="loading">Загрузка…</string>
 </resources>

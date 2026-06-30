@@ -68,7 +68,7 @@ function WebView({ tabId, url, onTitleChange, onFaviconChange, onLoadStart, onLo
       {/* In production Tauri build, the WebView2 window is positioned here */}
       <div className={styles.webviewPlaceholder}>
         <p className={styles.webviewNote}>
-          WebView2 renders here in the production Tauri build.
+          WebView2 отображает контент здесь в продакшн-сборке Tauri.
         </p>
         <p className={styles.webviewUrl}>{url}</p>
       </div>

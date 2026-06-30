@@ -1,41 +1,41 @@
-# ADR 002: Android System WebView over GeckoView
+# АРР 002: Android System WebView вместо GeckoView
 
-**Date**: 2024  
-**Status**: Accepted
+**Дата**: 2024  
+**Статус**: Принято
 
-## Context
+## Контекст
 
-The Android browser app needs a rendering engine. Two viable options exist: the system Android WebView (Chromium-based) and Mozilla GeckoView.
+Приложение браузера для Android нуждается в движке рендеринга. Существуют два жизнеспособных варианта: системный Android WebView (на основе Chromium) и Mozilla GeckoView.
 
-## Options considered
+## Рассмотренные варианты
 
-### Option A: Android WebView (Chromium)
-- Built into Android — no extra download
-- Updated automatically via Google Play on Android 5+
-- Well-documented, broad StackOverflow / docs coverage
+### Вариант А: Android WebView (Chromium)
+- Встроен в Android — не требует дополнительной загрузки
+- Автоматически обновляется через Google Play на Android 5+
+- Хорошая документация, широкое покрытие StackOverflow
 - API: `android.webkit.WebView`
-- Does not support WebExtensions
+- Не поддерживает WebExtensions
 
-### Option B: GeckoView (Mozilla)
-- Mozilla's Android-first Gecko embedding
-- Full WebExtensions support
-- Better privacy controls out of the box (Enhanced Tracking Protection)
-- ~40 MB extra download per ABI
-- Smaller community resources; API more complex
+### Вариант Б: GeckoView (Mozilla)
+- Движок Gecko от Mozilla, ориентированный на Android
+- Полная поддержка WebExtensions
+- Улучшенные средства защиты конфиденциальности «из коробки» (Enhanced Tracking Protection)
+- ~40 МБ дополнительной загрузки на ABI
+- Меньше ресурсов сообщества; более сложное API
 
-## Decision
+## Решение
 
-**Android System WebView** is chosen for MVP because:
-1. **Zero extra download size** — critical for adoption.
-2. **Automatic updates** — engine security patches via Play Store.
-3. **API simplicity** — faster MVP development.
-4. **Sufficient features** for MVP scope (no extension support required in v0.1).
+**Android System WebView** выбран для MVP по следующим причинам:
+1. **Нулевой дополнительный размер загрузки** — критично для принятия пользователями.
+2. **Автоматические обновления** — патчи безопасности движка через Play Store.
+3. **Простота API** — более быстрая разработка MVP.
+4. **Достаточно функций** для области MVP (поддержка расширений не требуется в v0.1).
 
-### Trade-offs accepted
-- No WebExtensions in v0.1 Android build.
-- Privacy features (ETP) must be implemented manually at the app layer rather than relying on built-in engine features.
+### Принятые компромиссы
+- Нет WebExtensions в v0.1 для Android.
+- Функции конфиденциальности (ETP) должны реализовываться вручную на уровне приложения, а не полагаться на встроенные возможности движка.
 
-## Consequences
-- `BrowserScreen.kt` uses `AndroidView { WebView(...) }`.
-- Ad/tracker blocking implemented in `WebViewClient.shouldInterceptRequest`.
-- GeckoView may be revisited in Stage 5 (privacy) or Stage 6 (extensions).
+## Последствия
+- `BrowserScreen.kt` использует `AndroidView { WebView(...) }`.
+- Блокировка рекламы/трекеров реализована в `WebViewClient.shouldInterceptRequest`.
+- GeckoView может быть пересмотрен на Этапе 5 (конфиденциальность) или Этапе 6 (расширения).

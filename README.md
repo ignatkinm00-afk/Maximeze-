@@ -1,53 +1,54 @@
-# Maximeze Browser
+# Браузер Maximeze
 
-A modern, minimalist cross-platform browser for **Windows** and **Android** — built with performance, privacy, and a unified design language in mind.
+Современный минималистичный кроссплатформенный браузер для **Windows** и **Android** — создан с акцентом на производительность, приватность и единый дизайн.
 
-[![Build Windows](https://github.com/ignatkinm00-afk/Maximeze-/actions/workflows/build-windows.yml/badge.svg)](https://github.com/ignatkinm00-afk/Maximeze-/actions/workflows/build-windows.yml)
-[![Build Android](https://github.com/ignatkinm00-afk/Maximeze-/actions/workflows/build-android.yml/badge.svg)](https://github.com/ignatkinm00-afk/Maximeze-/actions/workflows/build-android.yml)
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-
----
-
-## Features
-
-- **Multi-tab browsing** — with previews, lazy loading, and tab suspension for inactive tabs
-- **Omnibox** — unified address bar with autocomplete, search shortcuts, and quick commands
-- **Search engines** — Google, Bing, DuckDuckGo — user-selectable
-- **Bookmarks & History** — local storage, import/export (Chrome/Firefox-compatible HTML/JSON)
-- **Privacy mode** — incognito, built-in ad/tracker blocker (EasyList + EasyPrivacy)
-- **Download manager** — progress, pause/resume
-- **Themes** — light, dark, system-auto
-- **Sync** *(planned)* — bookmarks, history, open tabs between Windows and Android
-- **Android gestures** — swipe between tabs, swipe to close, bottom navigation bar
-- **Windows integration** — jump lists, drag & drop tabs between windows
+[![Сборка Windows](https://github.com/ignatkinm00-afk/Maximeze-/actions/workflows/build-windows.yml/badge.svg)](https://github.com/ignatkinm00-afk/Maximeze-/actions/workflows/build-windows.yml)
+[![Сборка Android](https://github.com/ignatkinm00-afk/Maximeze-/actions/workflows/build-android.yml/badge.svg)](https://github.com/ignatkinm00-afk/Maximeze-/actions/workflows/build-android.yml)
+[![Лицензия: MIT](https://img.shields.io/badge/Лицензия-MIT-blue.svg)](LICENSE)
+[![Релиз](https://img.shields.io/github/v/release/ignatkinm00-afk/Maximeze-)](https://github.com/ignatkinm00-afk/Maximeze-/releases)
 
 ---
 
-## Technology Stack
+## Возможности
 
-| Platform | Technology |
-|----------|-----------|
-| Windows  | [Tauri](https://tauri.app/) (Rust + WebView2) + React/TypeScript frontend |
-| Android  | Kotlin + Jetpack Compose + Android WebView (Chromium) |
-| Shared logic | `packages/core-engine` (TypeScript) |
-| Design system | `packages/design-system` (tokens, icons, fonts) |
+- **Вкладки** — несколько вкладок с превью, ленивой загрузкой и приостановкой неактивных вкладок
+- **Омнибокс** — единая адресная строка с автодополнением, поисковыми подсказками и быстрыми командами
+- **Поисковые системы** — Google, Bing, DuckDuckGo (выбирается пользователем)
+- **Закладки и история** — локальное хранение, импорт/экспорт в форматах Chrome/Firefox (HTML/JSON)
+- **Приватный режим** — инкогнито, встроенная блокировка рекламы и трекеров (EasyList + EasyPrivacy)
+- **Менеджер загрузок** — прогресс, пауза/возобновление
+- **Темы** — светлая, тёмная, системная
+- **Синхронизация** *(запланировано)* — закладки, история, открытые вкладки между Windows и Android
+- **Жесты на Android** — свайп между вкладками, свайп для закрытия, нижняя панель навигации
+- **Интеграция с Windows** — списки переходов, перетаскивание вкладок между окнами
 
 ---
 
-## Repository Structure
+## Технологический стек
+
+| Платформа | Технологии |
+|-----------|-----------|
+| Windows   | [Tauri](https://tauri.app/) (Rust + WebView2) + React/TypeScript |
+| Android   | Kotlin + Jetpack Compose + Android WebView (Chromium) |
+| Общая логика | `packages/core-engine` (TypeScript) |
+| Дизайн-система | `packages/design-system` (токены, иконки, шрифты) |
+
+---
+
+## Структура репозитория
 
 ```
 maximeze/
 ├── apps/
-│   ├── windows/          # Tauri app (Windows)
-│   │   ├── src/          # React/TypeScript frontend
-│   │   └── src-tauri/    # Rust backend
-│   └── android/          # Kotlin/Compose Android app
+│   ├── windows/          # Tauri-приложение (Windows)
+│   │   ├── src/          # React/TypeScript фронтенд
+│   │   └── src-tauri/    # Rust бэкенд
+│   └── android/          # Kotlin/Compose Android-приложение
 │       └── app/src/main/
 ├── packages/
-│   ├── design-system/    # Shared tokens, icons, fonts
-│   └── core-engine/      # Shared browser logic (bookmarks, history, settings)
-├── docs/                 # Documentation
+│   ├── design-system/    # Общие токены, иконки, шрифты
+│   └── core-engine/      # Общая логика браузера (закладки, история, настройки)
+├── docs/                 # Документация
 ├── .github/workflows/    # CI/CD
 ├── README.md
 ├── CONTRIBUTING.md
@@ -56,93 +57,102 @@ maximeze/
 
 ---
 
-## Getting Started
+## Быстрый старт
 
-### Prerequisites
+### Необходимые инструменты
 
-| Tool | Version | Purpose |
-|------|---------|---------|
-| [Node.js](https://nodejs.org/) | 20+ | Frontend build |
-| [pnpm](https://pnpm.io/) | 9+ | Package manager |
-| [Rust](https://rustup.rs/) | stable | Tauri backend (Windows) |
-| [WebView2 Runtime](https://developer.microsoft.com/en-us/microsoft-edge/webview2/) | latest | Rendering engine (Windows) |
-| [Android Studio](https://developer.android.com/studio) | latest | Android development |
-| [JDK](https://adoptium.net/) | 17+ | Android build |
+| Инструмент | Версия | Назначение |
+|-----------|--------|-----------|
+| [Node.js](https://nodejs.org/) | 20+ | Сборка фронтенда |
+| [pnpm](https://pnpm.io/) | 9+ | Менеджер пакетов |
+| [Rust](https://rustup.rs/) | stable | Бэкенд Tauri (Windows) |
+| [WebView2 Runtime](https://developer.microsoft.com/ru-ru/microsoft-edge/webview2/) | последняя | Движок рендеринга (Windows) |
+| [Android Studio](https://developer.android.com/studio) | последняя | Разработка Android |
+| [JDK](https://adoptium.net/) | 17+ | Сборка Android |
 
-### Windows Build
+### Сборка для Windows
 
 ```bash
-# 1. Clone the repository
+# 1. Клонировать репозиторий
 git clone https://github.com/ignatkinm00-afk/Maximeze-.git
 cd Maximeze-
 
-# 2. Install Node.js dependencies
+# 2. Установить зависимости Node.js
 pnpm install
 
-# 3. Run in development mode
+# 3. Запустить в режиме разработки
 cd apps/windows
 pnpm tauri dev
 
-# 4. Build a release binary
+# 4. Собрать релизный бинарник
 pnpm tauri build
-# Output: apps/windows/src-tauri/target/release/bundle/
+# Результат: apps/windows/src-tauri/target/release/bundle/
 ```
 
-### Android Build
+### Сборка для Android
 
 ```bash
-# 1. Open the Android project in Android Studio
+# 1. Открыть Android-проект в Android Studio
 #    File → Open → apps/android/
 
-# 2. Or build from command line
+# 2. Или собрать через командную строку
 cd apps/android
 ./gradlew assembleDebug
-# Output: apps/android/app/build/outputs/apk/debug/app-debug.apk
+# Результат: apps/android/app/build/outputs/apk/debug/app-debug.apk
 
-# Release build (requires signing config)
+# Релизная сборка (требует конфигурацию подписи)
 ./gradlew assembleRelease
 ```
 
-### Running Tests
+### Запуск тестов
 
 ```bash
-# Core engine unit tests
+# Тесты ядра браузера (TypeScript)
 cd packages/core-engine
 pnpm test
 
-# Windows frontend tests
+# Тесты фронтенда Windows
 cd apps/windows
 pnpm test
 
-# Android unit tests
+# JVM-тесты Android
 cd apps/android
 ./gradlew test
 
-# Android instrumented tests
+# Инструментальные тесты Android (требуется устройство/эмулятор)
 ./gradlew connectedAndroidTest
 ```
 
 ---
 
-## Contributing
+## Скачать
 
-See [CONTRIBUTING.md](CONTRIBUTING.md) for development guidelines, code style, and pull request process.
+Готовые сборки доступны на странице [Releases](https://github.com/ignatkinm00-afk/Maximeze-/releases):
 
----
-
-## Roadmap
-
-- [x] Stage 0 — Monorepo setup, CI/CD
-- [ ] Stage 1 — Windows MVP (tabs, address bar, navigation)
-- [ ] Stage 2 — Android MVP (same features, Compose UI)
-- [ ] Stage 3 — Design system polish on both platforms
-- [ ] Stage 4 — Bookmarks, history, downloads, settings
-- [ ] Stage 5 — Privacy features (ad blocker, incognito)
-- [ ] Stage 6 — Cross-device sync
-- [ ] Stage 7 — Release builds (signed .msix, .aab)
+- **Windows**: `Maximeze_x.x.x_x64-setup.exe` (установщик NSIS) или `.msi`
+- **Android**: `app-release.apk` (APK) или `app-release.aab` (AAB для Google Play)
 
 ---
 
-## License
+## Вклад в проект
+
+Смотрите [CONTRIBUTING.md](CONTRIBUTING.md) — руководство по разработке, стиль кода и процесс Pull Request.
+
+---
+
+## Дорожная карта
+
+- [x] Этап 0 — инициализация монорепо, CI/CD
+- [ ] Этап 1 — MVP Windows (вкладки, адресная строка, навигация)
+- [ ] Этап 2 — MVP Android (то же самое, Compose UI)
+- [ ] Этап 3 — полировка дизайн-системы на обеих платформах
+- [ ] Этап 4 — закладки, история, загрузки, настройки
+- [ ] Этап 5 — приватность (блокировщик рекламы, инкогнито)
+- [ ] Этап 6 — синхронизация между устройствами
+- [ ] Этап 7 — релизные сборки (подписанные .msix, .aab)
+
+---
+
+## Лицензия
 
 [MIT](LICENSE) © 2024 Maximeze Browser Contributors

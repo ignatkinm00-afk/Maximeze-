@@ -1,6 +1,6 @@
-# Maximeze — Architecture Overview
+# Maximeze — Обзор архитектуры
 
-## Repository Structure
+## Структура репозитория
 
 ```
 maximeze/
@@ -8,130 +8,130 @@ maximeze/
 │   ├── windows/          Tauri 2.x (Rust) + React 18 + TypeScript
 │   └── android/          Kotlin 2.0 + Jetpack Compose + Room + WebView
 ├── packages/
-│   ├── core-engine/      Pure TypeScript — browser primitives
-│   └── design-system/    Design tokens, CSS variables, SVG icons
+│   ├── core-engine/      Чистый TypeScript — примитивы браузера
+│   └── design-system/    Дизайн-токены, CSS-переменные, SVG-иконки
 └── docs/
-    ├── architecture.md   (this file)
-    └── adr/              Architecture Decision Records
+    ├── architecture.md   (этот файл)
+    └── adr/              Записи архитектурных решений
 ```
 
 ---
 
-## Rendering Engine Decision
+## Выбор движка рендеринга
 
-| Platform | Engine | Rationale |
-|----------|--------|-----------|
-| Windows  | WebView2 (Chromium, via Tauri) | Ships with Windows 10/11, always up-to-date via Windows Update |
-| Android  | System WebView (Chromium, via Android WebView) | Updated automatically via Google Play, 30+ API level guaranteed |
+| Платформа | Движок | Обоснование |
+|-----------|--------|-------------|
+| Windows   | WebView2 (Chromium, через Tauri) | Поставляется с Windows 10/11, автоматически обновляется через Windows Update |
+| Android   | System WebView (Chromium, через Android WebView) | Обновляется автоматически через Google Play, гарантирован уровень API 30+ |
 
-Both use the Chromium engine, ensuring consistent site compatibility and privacy features across platforms.
+Обе платформы используют движок Chromium, что обеспечивает единообразную совместимость с сайтами и функции конфиденциальности.
 
 ---
 
-## Windows App (Tauri)
+## Приложение Windows (Tauri)
 
 ```
 apps/windows/
 ├── src/                    React + TypeScript UI
 │   ├── components/         TabBar, Toolbar, Omnibox, WebContent, Sidebar, NewTabPage
-│   ├── store/              Zustand global state (browserStore.ts)
-│   └── styles/             Global CSS
-├── src-tauri/              Rust backend
+│   ├── store/              Глобальное состояние Zustand (browserStore.ts)
+│   └── styles/             Глобальные CSS-стили
+├── src-tauri/              Rust-бэкенд
 │   └── src/
-│       ├── main.rs         Entry point
-│       ├── lib.rs          Tauri builder, plugin registration
-│       ├── commands.rs     Tauri IPC commands (open_url, block_request, …)
-│       └── error.rs        Error types
-└── tauri.conf.json         Window config, bundle targets
+│       ├── main.rs         Точка входа
+│       ├── lib.rs          Tauri-строитель, регистрация плагинов
+│       ├── commands.rs     Команды Tauri IPC (open_url, block_request, …)
+│       └── error.rs        Типы ошибок
+└── tauri.conf.json         Конфигурация окна, цели сборки
 ```
 
-**State management**: Zustand store (`browserStore.ts`) holds all browser state — tabs, bookmarks, history, downloads, settings. Core-engine functions are pure and stateless; Zustand wraps them with reactivity.
+**Управление состоянием**: хранилище Zustand (`browserStore.ts`) хранит всё состояние браузера — вкладки, закладки, историю, загрузки, настройки. Функции core-engine — чистые и без состояния; Zustand оборачивает их реактивностью.
 
-**IPC**: Frontend calls Tauri commands via `@tauri-apps/api/core`. Commands validate inputs, apply business logic (e.g., URL scheme checks), and return results.
+**IPC**: Фронтенд вызывает команды Tauri через `@tauri-apps/api/core`. Команды валидируют входные данные, применяют бизнес-логику (например, проверку схемы URL) и возвращают результаты.
 
-**Persistence**: `tauri-plugin-store` serializes state to disk. On startup, the app reads the store and hydrates Zustand.
+**Персистентность**: `tauri-plugin-store` сериализует состояние на диск. При запуске приложение читает хранилище и гидратирует Zustand.
 
 ---
 
-## Android App (Kotlin + Compose)
+## Приложение Android (Kotlin + Compose)
 
 ```
 apps/android/app/src/main/
 ├── java/com/maximeze/browser/
-│   ├── MainActivity.kt             Compose root
+│   ├── MainActivity.kt             Корневой Compose
 │   ├── data/
-│   │   ├── db/                     Room database, DAOs
-│   │   └── model/                  Data classes (Tab, Bookmark, HistoryEntry, …)
+│   │   ├── db/                     База данных Room, DAO
+│   │   └── model/                  Классы данных (Tab, Bookmark, HistoryEntry, …)
 │   └── ui/
-│       ├── MaximizeApp.kt          Root composable, route switching
+│       ├── MaximizeApp.kt          Корневой composable, переключение маршрутов
 │       ├── BrowserViewModel.kt     AndroidViewModel, StateFlow
-│       ├── browser/BrowserScreen.kt WebView + bottom nav bar
-│       ├── tabs/TabGridScreen.kt   Tab grid overview
-│       └── theme/                  Compose Material 3 theme
+│       ├── browser/BrowserScreen.kt WebView + нижняя навигационная панель
+│       ├── tabs/TabGridScreen.kt   Сетка вкладок
+│       └── theme/                  Тема Compose Material 3
 ```
 
-**State management**: `BrowserViewModel` (AndroidViewModel) exposes `StateFlow<BrowserUiState>`. Room DAOs expose `Flow<List<…>>` for bookmarks/history, collected as `StateFlow` via `stateIn`.
+**Управление состоянием**: `BrowserViewModel` (AndroidViewModel) предоставляет `StateFlow<BrowserUiState>`. DAO Room предоставляют `Flow<List<…>>` для закладок/истории, собранные как `StateFlow` через `stateIn`.
 
-**Persistence**: Room database for bookmarks and history. Settings stored in DataStore Preferences.
+**Персистентность**: База данных Room для закладок и истории. Настройки хранятся в DataStore Preferences.
 
-**WebView**: Each tab renders in an `AndroidView`-wrapped `WebView`. The ViewModel updates tab state (`url`, `title`, `isLoading`) from `WebViewClient` callbacks.
+**WebView**: Каждая вкладка рендерится в `AndroidView`-обёртке `WebView`. ViewModel обновляет состояние вкладки (`url`, `title`, `isLoading`) из коллбэков `WebViewClient`.
 
 ---
 
-## Shared packages
+## Общие пакеты
 
 ### `@maximeze/core-engine`
 
-Pure TypeScript library — no DOM, no Node, no Android APIs. Functions are pure/immutable:
+Чистая TypeScript-библиотека — без DOM, без Node, без Android API. Функции чистые/иммутабельные:
 
-- `createTab`, `activateTab`, `closeTab`, `reorderTabs` — tab management
-- `createBookmark`, `exportToHTML`, `importFromHTML`, `exportToJSON`, `importFromJSON` — bookmarks
-- `recordVisit`, `searchHistory` — history
-- `getSuggestions`, `isUrl`, `normalizeUrl` — omnibox
-- `createDownload`, `updateDownloadProgress`, `formatFileSize` — downloads
-- `defaultSettings`, `mergeSettings`, `validateSettings` — settings
+- `createTab`, `activateTab`, `closeTab`, `reorderTabs` — управление вкладками
+- `createBookmark`, `exportToHTML`, `importFromHTML`, `exportToJSON`, `importFromJSON` — закладки
+- `recordVisit`, `searchHistory` — история
+- `getSuggestions`, `isUrl`, `normalizeUrl` — омнибокс
+- `createDownload`, `updateDownloadProgress`, `formatFileSize` — загрузки
+- `defaultSettings`, `mergeSettings`, `validateSettings` — настройки
 
-Android doesn't consume this package directly (Kotlin ecosystem); it replicates the same logic natively for type safety.
+Android не использует этот пакет напрямую (экосистема Kotlin); логика реализована нативно для типобезопасности.
 
 ### `@maximeze/design-system`
 
-- `src/tokens.ts` — TypeScript constants for colors, spacing, radius, typography, animation
-- `src/icons.ts` — SVG strings, `IconName` union type
-- `src/styles.css` — CSS custom properties (variables) including light/dark mode
+- `src/tokens.ts` — TypeScript-константы для цветов, отступов, радиусов, типографики, анимации
+- `src/icons.ts` — SVG-строки, тип-объединение `IconName`
+- `src/styles.css` — CSS-переменные, включая светлую/тёмную тему
 
-Android uses a separate Material 3 theme aligned with the same color palette via `Theme.kt`.
-
----
-
-## Privacy Architecture
-
-### Ad/Tracker Blocking
-
-**Windows**: Rust `commands::block_request` applies URL-pattern matching against a built-in blocklist. In future versions, EasyList/EasyPrivacy are loaded at startup and compiled to a filter engine (e.g., Rust's `adblock` crate).
-
-**Android**: Planned — `WebViewClient.shouldInterceptRequest` intercepts network requests and matches against a blocklist loaded from assets.
-
-### Incognito Mode
-
-**Windows**: Incognito tabs are stored only in memory (Zustand), never persisted to disk via `tauri-plugin-store`. Rust backend skips history recording when tab is flagged incognito.
-
-**Android**: Incognito tabs use a separate in-memory-only `WebView` configuration with cookies and cache cleared on close.
+Android использует отдельную тему Material 3, согласованную с той же цветовой палитрой через `Theme.kt`.
 
 ---
 
-## Sync Architecture (Planned, Stage 6)
+## Архитектура конфиденциальности
+
+### Блокировка рекламы и трекеров
+
+**Windows**: Rust-функция `commands::block_request` применяет сопоставление URL-паттернов с встроенным списком блокировки. В будущих версиях EasyList/EasyPrivacy загружаются при старте и компилируются в фильтр (например, крейт Rust `adblock`).
+
+**Android**: Планируется — `WebViewClient.shouldInterceptRequest` перехватывает сетевые запросы и сопоставляет их со списком блокировки из ресурсов.
+
+### Режим инкогнито
+
+**Windows**: Вкладки инкогнито хранятся только в памяти (Zustand) и никогда не сохраняются на диск через `tauri-plugin-store`. Rust-бэкенд пропускает запись истории, если вкладка помечена как инкогнито.
+
+**Android**: Вкладки инкогнито используют отдельную конфигурацию `WebView` только в памяти, с очисткой кук и кэша при закрытии.
+
+---
+
+## Архитектура синхронизации (Планируется, Этап 6)
 
 ```
 ┌──────────────┐     HTTPS/JSON     ┌──────────────────┐
-│  Windows app │ ◄─────────────────►│   Sync API       │
+│  Windows     │ ◄─────────────────►│   Sync API       │
 └──────────────┘                    │   (self-hosted    │
-                                    │    or Firebase)   │
+                                    │    или Firebase)  │
 ┌──────────────┐                    │                   │
-│  Android app │ ◄─────────────────►│                   │
+│  Android     │ ◄─────────────────►│                   │
 └──────────────┘                    └──────────────────┘
 ```
 
-Sync payload schema (JSON):
+Схема полезной нагрузки синхронизации (JSON):
 ```json
 {
   "version": 1,
@@ -145,16 +145,16 @@ Sync payload schema (JSON):
 }
 ```
 
-Conflict resolution: last-write-wins per field, with `updatedAt` timestamps.
+Разрешение конфликтов: последняя запись побеждает для каждого поля с метками времени `updatedAt`.
 
 ---
 
 ## CI/CD
 
-| Workflow | Trigger | Output |
-|----------|---------|--------|
-| `ci.yml` | Every push/PR | Lint, typecheck, unit tests (all packages) |
-| `build-windows.yml` | Push to main, tags | `.exe` (NSIS installer), `.msi` |
-| `build-android.yml` | Push to main, tags | `.apk` (debug/release), `.aab` (release) |
+| Воркфлоу | Триггер | Результат |
+|----------|---------|-----------|
+| `ci.yml` | Каждый push/PR | Lint, проверка типов, модульные тесты (все пакеты) |
+| `build-windows.yml` | Push в main, теги | `.exe` (установщик NSIS), `.msi` |
+| `build-android.yml` | Push в main, теги | `.apk` (debug/release), `.aab` (release) |
 
-Release artifacts are attached to GitHub Releases on version tags (`v*`).
+Артефакты релиза прикрепляются к GitHub Releases при тегах версий (`v*`).

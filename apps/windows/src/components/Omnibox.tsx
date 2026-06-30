@@ -119,7 +119,7 @@ export function Omnibox({ value, onNavigate, isSecure }: OmniboxProps) {
         onKeyDown={handleKeyDown}
         spellCheck={false}
         autoComplete="off"
-        aria-label="Address bar"
+        aria-label="Адресная строка"
         aria-autocomplete="list"
         aria-expanded={isFocused && suggestions.length > 0}
       />

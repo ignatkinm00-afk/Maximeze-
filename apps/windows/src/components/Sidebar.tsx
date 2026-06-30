@@ -10,15 +10,15 @@ export function Sidebar() {
     <div className={styles.sidebar} role="complementary">
       <div className={styles.header}>
         <h2 className={styles.title}>
-          {sidebarTab === "bookmarks" && "Bookmarks"}
-          {sidebarTab === "history" && "History"}
-          {sidebarTab === "downloads" && "Downloads"}
-          {sidebarTab === "settings" && "Settings"}
+          {sidebarTab === "bookmarks" && "Закладки"}
+          {sidebarTab === "history" && "История"}
+          {sidebarTab === "downloads" && "Загрузки"}
+          {sidebarTab === "settings" && "Настройки"}
         </h2>
         <button
           className={styles.closeBtn}
           onClick={() => setSidebarOpen(false)}
-          aria-label="Close sidebar"
+          aria-label="Закрыть панель"
         >
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
             <path d="M18 6 6 18M6 6l12 12" />
@@ -39,7 +39,7 @@ function BookmarksPanel() {
   const { bookmarks, bookmarkFolders, getActiveTab, navigate, removeBookmark } = useBrowserStore();
 
   if (bookmarks.length === 0) {
-    return <Empty message="No bookmarks yet" />;
+    return <Empty message="Нет закладок" />;
   }
 
   return (
@@ -53,7 +53,7 @@ function BookmarksPanel() {
             <span className={styles.itemTitle}>{bm.title}</span>
             <span className={styles.itemMeta}>{bm.url}</span>
           </div>
-          <button className={styles.removeBtn} onClick={() => removeBookmark(bm.id)} aria-label="Remove bookmark">
+          <button className={styles.removeBtn} onClick={() => removeBookmark(bm.id)} aria-label="Удалить закладку">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
               <path d="M18 6 6 18M6 6l12 12" />
             </svg>
@@ -68,7 +68,7 @@ function HistoryPanel() {
   const { history, clearHistory, getActiveTab, navigate } = useBrowserStore();
 
   if (history.length === 0) {
-    return <Empty message="No history yet" />;
+    return <Empty message="История пуста" />;
   }
 
   return (
@@ -87,7 +87,7 @@ function HistoryPanel() {
         ))}
       </div>
       <div className={styles.actions}>
-        <button className={styles.clearBtn} onClick={clearHistory}>Clear history</button>
+        <button className={styles.clearBtn} onClick={clearHistory}>Очистить историю</button>
       </div>
     </>
   );
@@ -97,7 +97,7 @@ function DownloadsPanel() {
   const { downloads, pauseDownload, resumeDownload, cancelDownload } = useBrowserStore();
 
   if (downloads.length === 0) {
-    return <Empty message="No downloads" />;
+    return <Empty message="Нет загрузок" />;
   }
 
   return (
@@ -118,13 +118,13 @@ function DownloadsPanel() {
           )}
           <div className={styles.downloadActions}>
             {dl.status === "downloading" && (
-              <button onClick={() => pauseDownload(dl.id)}>Pause</button>
+              <button onClick={() => pauseDownload(dl.id)}>Пауза</button>
             )}
             {dl.status === "paused" && (
-              <button onClick={() => resumeDownload(dl.id)}>Resume</button>
+              <button onClick={() => resumeDownload(dl.id)}>Возобновить</button>
             )}
             {(dl.status === "downloading" || dl.status === "paused") && (
-              <button onClick={() => cancelDownload(dl.id)}>Cancel</button>
+              <button onClick={() => cancelDownload(dl.id)}>Отмена</button>
             )}
           </div>
         </div>
@@ -139,20 +139,20 @@ function SettingsPanel() {
   return (
     <div className={styles.settings}>
       <div className={styles.settingRow}>
-        <label className={styles.settingLabel}>Theme</label>
+        <label className={styles.settingLabel}>Тема</label>
         <select
           className={styles.settingSelect}
           value={settings.theme}
           onChange={(e) => updateSettings({ theme: e.target.value as "light" | "dark" | "system" })}
         >
-          <option value="system">System</option>
-          <option value="light">Light</option>
-          <option value="dark">Dark</option>
+          <option value="system">Системная</option>
+          <option value="light">Светлая</option>
+          <option value="dark">Тёмная</option>
         </select>
       </div>
 
       <div className={styles.settingRow}>
-        <label className={styles.settingLabel}>Search engine</label>
+        <label className={styles.settingLabel}>Поисковик</label>
         <select
           className={styles.settingSelect}
           value={settings.defaultSearchEngine}
@@ -165,7 +165,7 @@ function SettingsPanel() {
       </div>
 
       <div className={styles.settingRow}>
-        <label className={styles.settingLabel}>Block trackers</label>
+        <label className={styles.settingLabel}>Блокировать трекеры</label>
         <input
           type="checkbox"
           checked={settings.blockTrackers}
@@ -174,7 +174,7 @@ function SettingsPanel() {
       </div>
 
       <div className={styles.settingRow}>
-        <label className={styles.settingLabel}>Block ads</label>
+        <label className={styles.settingLabel}>Блокировать рекламу</label>
         <input
           type="checkbox"
           checked={settings.blockAds}
@@ -183,7 +183,7 @@ function SettingsPanel() {
       </div>
 
       <div className={styles.settingRow}>
-        <label className={styles.settingLabel}>Do Not Track</label>
+        <label className={styles.settingLabel}>Не отслеживать</label>
         <input
           type="checkbox"
           checked={settings.doNotTrack}

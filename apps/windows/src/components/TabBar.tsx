@@ -40,7 +40,7 @@ export function TabBar() {
           />
         ))}
       </div>
-      <button className={styles.newTab} onClick={handleNewTab} title="New tab (Ctrl+T)" aria-label="New tab">
+      <button className={styles.newTab} onClick={handleNewTab} title="Новая вкладка (Ctrl+T)" aria-label="Новая вкладка">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
           <path d="M5 12h14M12 5v14" />
         </svg>
@@ -86,7 +86,7 @@ function TabItem({ tab, onActivate, onClose, onDragStart, onDrop }: TabItemProps
           <button
             className={styles.closeBtn}
             onClick={onClose}
-            aria-label="Close tab"
+            aria-label="Закрыть вкладку"
           >
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
               <path d="M18 6 6 18M6 6l12 12" />

@@ -1,74 +1,74 @@
-# Contributing to Maximeze
+# Как внести вклад в Maximeze
 
-Thank you for your interest in contributing! This document covers the development workflow, code style, and pull request process.
-
----
-
-## Table of Contents
-
-- [Code of Conduct](#code-of-conduct)
-- [Getting Started](#getting-started)
-- [Repository Layout](#repository-layout)
-- [Development Workflow](#development-workflow)
-- [Coding Standards](#coding-standards)
-- [Commit Messages](#commit-messages)
-- [Pull Request Process](#pull-request-process)
-- [Issue Reporting](#issue-reporting)
+Спасибо за интерес к участию в проекте! В этом документе описаны рабочий процесс разработки, стандарты кода и порядок отправки Pull Request.
 
 ---
 
-## Code of Conduct
+## Содержание
 
-Be respectful. Constructive criticism is welcome; personal attacks are not. Issues and PRs that violate this policy will be closed.
-
----
-
-## Getting Started
-
-1. **Fork** the repository and clone your fork.
-2. Install all prerequisites listed in [README.md](README.md).
-3. Install dependencies: `pnpm install` from the repo root.
-4. Create a feature branch: `git checkout -b feat/your-feature-name`.
-5. Make your changes, write tests, run the test suite.
-6. Open a pull request against `main`.
+- [Кодекс поведения](#кодекс-поведения)
+- [Быстрый старт](#быстрый-старт)
+- [Структура репозитория](#структура-репозитория)
+- [Рабочий процесс](#рабочий-процесс)
+- [Стандарты кода](#стандарты-кода)
+- [Формат коммитов](#формат-коммитов)
+- [Pull Request](#pull-request)
+- [Сообщить об ошибке](#сообщить-об-ошибке)
 
 ---
 
-## Repository Layout
+## Кодекс поведения
+
+Уважайте других участников. Конструктивная критика приветствуется; личные выпады — нет. Issues и PR, нарушающие это правило, будут закрыты.
+
+---
+
+## Быстрый старт
+
+1. **Сделайте форк** репозитория и склонируйте его.
+2. Установите все необходимые инструменты (см. [README.md](README.md)).
+3. Установите зависимости: `pnpm install` из корня репозитория.
+4. Создайте ветку фичи: `git checkout -b feat/название-фичи`.
+5. Внесите изменения, напишите тесты, запустите тестовый набор.
+6. Откройте Pull Request в ветку `main`.
+
+---
+
+## Структура репозитория
 
 ```
 maximeze/
-├── apps/windows/          # Tauri (Rust + React/TS) — Windows browser
-├── apps/android/          # Kotlin + Jetpack Compose — Android browser
-├── packages/core-engine/  # Shared logic: history, bookmarks, settings, sync
-├── packages/design-system/# Design tokens, icons, fonts
-└── docs/                  # Architecture docs, ADRs, API specs
+├── apps/windows/          # Tauri (Rust + React/TS) — браузер Windows
+├── apps/android/          # Kotlin + Jetpack Compose — браузер Android
+├── packages/core-engine/  # Общая логика: история, закладки, настройки, синхронизация
+├── packages/design-system/# Токены дизайна, иконки, шрифты
+└── docs/                  # Документация, ADR, спецификации API
 ```
 
-When changing shared logic in `packages/`, run tests for **both** apps that consume it.
+При изменении общей логики в `packages/` запускайте тесты **обоих** приложений.
 
 ---
 
-## Development Workflow
+## Рабочий процесс
 
 ### Windows (Tauri)
 
 ```bash
 cd apps/windows
-pnpm tauri dev          # hot-reload dev server
-pnpm test               # run Vitest unit tests
-pnpm lint               # ESLint + Prettier check
+pnpm tauri dev          # dev-сервер с горячей перезагрузкой
+pnpm test               # unit-тесты Vitest
+pnpm lint               # ESLint + Prettier
 pnpm typecheck          # tsc --noEmit
-cargo test              # Rust unit tests (from src-tauri/)
+cargo test              # Rust unit-тесты (из src-tauri/)
 ```
 
 ### Android
 
 ```bash
 cd apps/android
-./gradlew assembleDebug             # build debug APK
-./gradlew test                      # JVM unit tests
-./gradlew connectedAndroidTest      # instrumented tests (needs device/emulator)
+./gradlew assembleDebug             # сборка debug APK
+./gradlew test                      # JVM unit-тесты
+./gradlew connectedAndroidTest      # инструментальные тесты (нужно устройство/эмулятор)
 ./gradlew lint                      # Android Lint
 ```
 
@@ -76,100 +76,100 @@ cd apps/android
 
 ```bash
 cd packages/core-engine
-pnpm build              # compile TypeScript
+pnpm build              # компиляция TypeScript
 pnpm test               # Vitest
 pnpm lint
 ```
 
 ---
 
-## Coding Standards
+## Стандарты кода
 
-### TypeScript / React (Windows frontend)
+### TypeScript / React (фронтенд Windows)
 
-- ESLint + Prettier enforced via pre-commit hooks.
-- Functional components only; no class components.
-- State management: React built-ins + Zustand for cross-component state.
-- No `any` types — use `unknown` and narrow explicitly.
-- File naming: `PascalCase` for components, `camelCase` for utilities.
+- ESLint + Prettier (применяются через pre-commit хуки).
+- Только функциональные компоненты, без class-компонентов.
+- Управление состоянием: React-хуки + Zustand для межкомпонентного состояния.
+- Запрещено использование `any` — используйте `unknown` с явным сужением типов.
+- Именование файлов: `PascalCase` для компонентов, `camelCase` для утилит.
 
-### Rust (Tauri backend)
+### Rust (бэкенд Tauri)
 
-- Follow `rustfmt` defaults — run `cargo fmt` before committing.
-- Run `cargo clippy` and fix all warnings.
-- Document public APIs with `///` doc comments.
-- Prefer `thiserror`-based error types over `anyhow` in library code.
+- Следуйте стандартам `rustfmt` — запускайте `cargo fmt` перед коммитом.
+- Запускайте `cargo clippy` и исправляйте все предупреждения.
+- Документируйте публичные API через `///` doc-комментарии.
+- Используйте типы ошибок на основе `thiserror` в библиотечном коде.
 
 ### Kotlin / Compose (Android)
 
-- Follow [Kotlin Coding Conventions](https://kotlinlang.org/docs/coding-conventions.html).
-- Jetpack Compose: stateless composables where possible, hoist state up.
-- Use `ktlint` formatting (enforced in CI).
-- ViewModels in `ui/` package, repository logic in `data/` package.
+- Следуйте [соглашениям по кодированию Kotlin](https://kotlinlang.org/docs/coding-conventions.html).
+- Jetpack Compose: stateless composables везде где возможно, поднимайте состояние наверх.
+- Форматирование через `ktlint` (проверяется в CI).
+- ViewModel в пакете `ui/`, логика репозитория в пакете `data/`.
 
-### Design System
+### Дизайн-система
 
-- All colors, spacing, and typography must use design tokens — no hardcoded values.
-- SVG icons: 24×24 viewBox, `currentColor` fill/stroke.
-- Naming: `--mxz-color-*`, `--mxz-spacing-*`, `--mxz-radius-*` (CSS variables).
+- Все цвета, отступы и типографика через токены дизайна — никаких хардкодных значений.
+- SVG иконки: 24×24 viewBox, заливка/обводка `currentColor`.
+- Именование: `--mxz-color-*`, `--mxz-spacing-*`, `--mxz-radius-*` (CSS-переменные).
 
 ---
 
-## Commit Messages
+## Формат коммитов
 
-Follow [Conventional Commits](https://www.conventionalcommits.org/):
+Используйте [Conventional Commits](https://www.conventionalcommits.org/):
 
 ```
-<type>(<scope>): <short description>
+<тип>(<область>): <краткое описание>
 
-[optional body]
+[необязательное тело]
 
-[optional footer]
+[необязательный футер]
 ```
 
-**Types:** `feat`, `fix`, `docs`, `style`, `refactor`, `test`, `chore`, `perf`, `ci`
+**Типы:** `feat`, `fix`, `docs`, `style`, `refactor`, `test`, `chore`, `perf`, `ci`
 
-**Scopes:** `windows`, `android`, `core-engine`, `design-system`, `ci`, `docs`
+**Области:** `windows`, `android`, `core-engine`, `design-system`, `ci`, `docs`
 
-**Examples:**
+**Примеры:**
 ```
-feat(windows): add tab drag-and-drop between windows
-fix(android): correct swipe gesture threshold on low-DPI screens
-docs: update Android build prerequisites
-test(core-engine): add bookmark import/export edge cases
+feat(windows): добавить перетаскивание вкладок между окнами
+fix(android): исправить порог жеста свайпа на экранах с низким DPI
+docs: обновить требования для сборки Android
+test(core-engine): добавить граничные случаи импорта/экспорта закладок
 ```
 
 ---
 
-## Pull Request Process
+## Pull Request
 
-1. **One feature per PR** — keep diffs focused and reviewable.
-2. **Link the issue** in the PR description (`Closes #123`).
-3. **Pass CI** — all checks must be green before review.
-4. **Write tests** — new features need unit tests; bug fixes need a regression test.
-5. **Update docs** — if you change public APIs or UX behavior, update relevant docs.
-6. **Screenshots / videos** for UI changes (both platforms if applicable).
-7. **At least one approval** required before merge.
-8. PRs are merged via **squash merge** — keep your commit history clean but it doesn't have to be perfect.
-
----
-
-## Issue Reporting
-
-Use the GitHub issue templates:
-
-- **Bug report** — include platform (Windows/Android), version, steps to reproduce, expected vs actual behavior, logs.
-- **Feature request** — describe the use case and proposed solution.
-- **Performance issue** — include profiling data or reproduction steps.
-
-Before opening an issue, search existing issues to avoid duplicates.
+1. **Один PR — одна фича** — держите диффы небольшими и удобными для проверки.
+2. **Ссылайтесь на issue** в описании PR (`Closes #123`).
+3. **Проходите CI** — все проверки должны быть зелёными перед ревью.
+4. **Пишите тесты** — новые фичи требуют unit-тестов; баг-фиксы — регрессионного теста.
+5. **Обновляйте документацию** — при изменении публичных API или поведения UI.
+6. **Скриншоты/видео** для UI-изменений (обеих платформ, если применимо).
+7. Требуется **минимум одно одобрение** перед мержем.
+8. PR мержатся через **squash merge** — история коммитов не обязана быть идеальной.
 
 ---
 
-## Architecture Decision Records
+## Сообщить об ошибке
 
-Significant design decisions are documented as ADRs in `docs/adr/`. If your PR changes fundamental architecture (e.g., switching rendering engines, changing state management), add a new ADR.
+Используйте шаблоны issues на GitHub:
+
+- **Отчёт об ошибке** — платформа (Windows/Android), версия, шаги воспроизведения, ожидаемое vs фактическое поведение, логи.
+- **Запрос функции** — описание варианта использования и предлагаемое решение.
+- **Проблема с производительностью** — данные профилировщика или шаги воспроизведения.
+
+Перед открытием issue проверьте, нет ли уже похожего.
 
 ---
 
-Thank you for contributing to Maximeze!
+## Архитектурные решения
+
+Значимые решения по архитектуре документируются как ADR в `docs/adr/`. Если ваш PR меняет фундаментальную архитектуру (например, смена движка рендеринга, изменение управления состоянием), добавьте новый ADR.
+
+---
+
+Спасибо за вклад в Maximeze!
