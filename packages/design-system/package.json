@@ -1,0 +1,38 @@
+{
+  "name": "@maximeze/design-system",
+  "version": "0.1.0",
+  "description": "Maximeze shared design tokens, icons, and fonts",
+  "license": "MIT",
+  "main": "dist/index.js",
+  "module": "dist/index.esm.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.esm.js",
+      "require": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./tokens": {
+      "import": "./dist/tokens.esm.js",
+      "require": "./dist/tokens.js",
+      "types": "./dist/tokens.d.ts"
+    },
+    "./icons": {
+      "import": "./dist/icons.esm.js",
+      "require": "./dist/icons.js",
+      "types": "./dist/icons.d.ts"
+    },
+    "./styles": "./dist/styles.css"
+  },
+  "files": ["dist"],
+  "scripts": {
+    "build": "tsup src/index.ts src/tokens.ts src/icons.ts --format esm,cjs --dts && node scripts/build-css.js",
+    "dev": "tsup src/index.ts --watch --format esm,cjs --dts",
+    "lint": "eslint src --ext .ts,.tsx",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "tsup": "^8.0.0",
+    "typescript": "^5.4.0"
+  }
+}

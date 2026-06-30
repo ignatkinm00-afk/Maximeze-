@@ -1,0 +1,51 @@
+.toolbar {
+  display: flex;
+  align-items: center;
+  gap: var(--mxz-spacing-2);
+  padding: var(--mxz-spacing-2) var(--mxz-spacing-3);
+  background: var(--mxz-color-surface);
+  border-bottom: 1px solid var(--mxz-color-border);
+  height: 44px;
+}
+
+.navButtons {
+  display: flex;
+  gap: var(--mxz-spacing-1);
+  flex-shrink: 0;
+}
+
+.omniboxContainer {
+  flex: 1;
+  max-width: 680px;
+  min-width: 0;
+}
+
+.actions {
+  display: flex;
+  gap: var(--mxz-spacing-1);
+  flex-shrink: 0;
+  margin-left: auto;
+}
+
+.toolbarBtn {
+  width: 30px;
+  height: 30px;
+  border: none;
+  background: transparent;
+  border-radius: var(--mxz-radius-md);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--mxz-color-text-secondary);
+  transition: background var(--mxz-duration-fast), color var(--mxz-duration-fast);
+}
+
+.toolbarBtn:hover {
+  background: var(--mxz-color-bg-tertiary);
+  color: var(--mxz-color-text-primary);
+}
+
+.toolbarBtn:active {
+  background: var(--mxz-color-border);
+}

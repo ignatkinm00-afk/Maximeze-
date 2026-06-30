@@ -1,0 +1,105 @@
+.page {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--mxz-color-bg-primary);
+  overflow: auto;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--mxz-spacing-8);
+  padding: var(--mxz-spacing-10);
+  width: 100%;
+  max-width: 640px;
+}
+
+.greeting {
+  font-size: var(--mxz-text-2xl);
+  font-weight: 600;
+  color: var(--mxz-color-text-primary);
+}
+
+.searchForm {
+  width: 100%;
+}
+
+.searchBox {
+  display: flex;
+  align-items: center;
+  gap: var(--mxz-spacing-3);
+  background: var(--mxz-color-surface);
+  border: 1px solid var(--mxz-color-border);
+  border-radius: var(--mxz-radius-xl);
+  padding: var(--mxz-spacing-3) var(--mxz-spacing-5);
+  transition: border-color var(--mxz-duration-fast), box-shadow var(--mxz-duration-fast);
+}
+
+.searchBox:focus-within {
+  border-color: var(--mxz-color-accent);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--mxz-color-accent) 20%, transparent);
+}
+
+.searchIcon {
+  color: var(--mxz-color-text-tertiary);
+  flex-shrink: 0;
+}
+
+.searchInput {
+  flex: 1;
+  border: none;
+  background: transparent;
+  font-family: var(--mxz-font-sans);
+  font-size: var(--mxz-text-md);
+  color: var(--mxz-color-text-primary);
+  outline: none;
+}
+
+.searchInput::placeholder {
+  color: var(--mxz-color-text-tertiary);
+}
+
+.quickLinks {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--mxz-spacing-3);
+  width: 100%;
+}
+
+.quickLink {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--mxz-spacing-2);
+  padding: var(--mxz-spacing-4);
+  background: var(--mxz-color-surface);
+  border: 1px solid var(--mxz-color-border);
+  border-radius: var(--mxz-radius-lg);
+  cursor: pointer;
+  transition: background var(--mxz-duration-fast), border-color var(--mxz-duration-fast),
+    transform var(--mxz-duration-fast) var(--mxz-easing-spring);
+}
+
+.quickLink:hover {
+  background: var(--mxz-color-surface-raised);
+  border-color: var(--mxz-color-accent);
+  transform: translateY(-2px);
+}
+
+.quickLink:active {
+  transform: translateY(0);
+}
+
+.quickLinkEmoji {
+  font-size: 24px;
+  line-height: 1;
+}
+
+.quickLinkTitle {
+  font-size: var(--mxz-text-sm);
+  color: var(--mxz-color-text-secondary);
+  font-weight: 500;
+}

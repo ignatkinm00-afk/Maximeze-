@@ -1,0 +1,126 @@
+name: CI
+
+on:
+  push:
+    branches: [main, develop, "feat/**", "fix/**", "claude/**"]
+  pull_request:
+    branches: [main, develop]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  lint-and-typecheck:
+    name: Lint & Typecheck
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: Lint core-engine
+        working-directory: packages/core-engine
+        run: pnpm lint
+
+      - name: Typecheck core-engine
+        working-directory: packages/core-engine
+        run: pnpm typecheck
+
+      - name: Lint design-system
+        working-directory: packages/design-system
+        run: pnpm lint
+
+      - name: Lint windows frontend
+        working-directory: apps/windows
+        run: pnpm lint
+
+      - name: Typecheck windows frontend
+        working-directory: apps/windows
+        run: pnpm typecheck
+
+  test-core-engine:
+    name: Test — core-engine
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: Build core-engine
+        working-directory: packages/core-engine
+        run: pnpm build
+
+      - name: Test core-engine
+        working-directory: packages/core-engine
+        run: pnpm test --reporter=verbose
+
+  test-windows-frontend:
+    name: Test — Windows frontend
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: Build dependencies
+        run: pnpm --filter @maximeze/core-engine build && pnpm --filter @maximeze/design-system build
+
+      - name: Test windows frontend
+        working-directory: apps/windows
+        run: pnpm test --reporter=verbose
+
+  test-android:
+    name: Test — Android (JVM)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+
+      - uses: gradle/actions/setup-gradle@v3
+
+      - name: Run Android unit tests
+        working-directory: apps/android
+        run: ./gradlew test --no-daemon
+
+      - name: Android Lint
+        working-directory: apps/android
+        run: ./gradlew lint --no-daemon
+
+      - name: Upload lint report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: android-lint-report
+          path: apps/android/app/build/reports/lint-results*.html

@@ -1,0 +1,106 @@
+.container {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+}
+
+.tabContent {
+  position: absolute;
+  inset: 0;
+}
+
+.visible {
+  display: flex;
+  flex-direction: column;
+}
+
+.hidden {
+  display: none;
+}
+
+.webview {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+  background: var(--mxz-color-neutral-0);
+}
+
+.webviewPlaceholder {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--mxz-spacing-2);
+  color: var(--mxz-color-text-tertiary);
+  background: var(--mxz-color-bg-secondary);
+}
+
+.webviewNote {
+  font-size: var(--mxz-text-sm);
+}
+
+.webviewUrl {
+  font-size: var(--mxz-text-xs);
+  font-family: var(--mxz-font-mono);
+  color: var(--mxz-color-text-secondary);
+  max-width: 500px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.suspended {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--mxz-color-bg-secondary);
+}
+
+.suspendedContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--mxz-spacing-3);
+  padding: var(--mxz-spacing-8);
+  text-align: center;
+}
+
+.suspendedIcon {
+  color: var(--mxz-color-text-tertiary);
+}
+
+.suspendedTitle {
+  font-size: var(--mxz-text-md);
+  font-weight: 500;
+  color: var(--mxz-color-text-secondary);
+}
+
+.suspendedUrl {
+  font-size: var(--mxz-text-sm);
+  font-family: var(--mxz-font-mono);
+  color: var(--mxz-color-text-tertiary);
+  max-width: 400px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.resumeBtn {
+  margin-top: var(--mxz-spacing-2);
+  padding: var(--mxz-spacing-2) var(--mxz-spacing-5);
+  background: var(--mxz-color-accent);
+  color: white;
+  border: none;
+  border-radius: var(--mxz-radius-md);
+  font-size: var(--mxz-text-sm);
+  font-weight: 500;
+  cursor: pointer;
+  transition: background var(--mxz-duration-fast);
+}
+
+.resumeBtn:hover {
+  background: var(--mxz-color-accent-hover);
+}
