@@ -42,6 +42,10 @@ jobs:
           ESLINT_USE_FLAT_CONFIG: "false"
         run: pnpm lint
 
+      - name: Build core-engine for typecheck
+        working-directory: packages/core-engine
+        run: pnpm build
+
       - name: Lint windows frontend
         working-directory: apps/windows
         env:
