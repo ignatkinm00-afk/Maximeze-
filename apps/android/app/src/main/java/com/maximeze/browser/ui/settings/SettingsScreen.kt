@@ -132,7 +132,7 @@ fun SettingsScreen(
                 SettingsToggleItem(
                     title = "Блокировать рекламу",
                     subtitle = "Убирать рекламные блоки на страницах",
-                    icon = Icons.Default.BlockFlipped,
+                    icon = Icons.Default.Block,
                     checked = settings.blockAds,
                     onCheckedChange = { onUpdateSettings(settings.copy(blockAds = it)) },
                 )

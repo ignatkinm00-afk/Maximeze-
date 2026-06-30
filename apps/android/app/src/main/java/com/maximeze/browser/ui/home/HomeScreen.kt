@@ -26,7 +26,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.maximeze.browser.ui.MaximizeViolet
+import com.maximeze.browser.ui.theme.MaximizeViolet
 import java.util.Calendar
 
 private data class QuickLink(val emoji: String, val title: String, val url: String)
