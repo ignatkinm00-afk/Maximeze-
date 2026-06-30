@@ -1,3 +1,5 @@
+import { useState } from "react";
+import type { ReactNode } from "react";
 import { useBrowserStore } from "../store/browserStore";
 import styles from "./Sidebar.module.css";
 
@@ -134,61 +136,195 @@ function DownloadsPanel() {
 }
 
 function SettingsPanel() {
-  const { settings, updateSettings } = useBrowserStore();
+  const { settings, updateSettings, clearHistory } = useBrowserStore();
+  const [confirmClear, setConfirmClear] = useState(false);
 
   return (
-    <div className={styles.settings}>
-      <div className={styles.settingRow}>
-        <label className={styles.settingLabel}>Тема</label>
-        <select
-          className={styles.settingSelect}
-          value={settings.theme}
-          onChange={(e) => updateSettings({ theme: e.target.value as "light" | "dark" | "system" })}
-        >
-          <option value="system">Системная</option>
-          <option value="light">Светлая</option>
-          <option value="dark">Тёмная</option>
-        </select>
-      </div>
+    <div className={styles.settingsScroll}>
 
-      <div className={styles.settingRow}>
-        <label className={styles.settingLabel}>Поисковик</label>
-        <select
-          className={styles.settingSelect}
-          value={settings.defaultSearchEngine}
-          onChange={(e) => updateSettings({ defaultSearchEngine: e.target.value as "google" | "bing" | "duckduckgo" })}
-        >
-          <option value="google">Google</option>
-          <option value="bing">Bing</option>
-          <option value="duckduckgo">DuckDuckGo</option>
-        </select>
-      </div>
+      <SettingsSection title="Внешний вид">
+        <SettingsRow label="Тема оформления">
+          <select
+            className={styles.select}
+            value={settings.theme}
+            onChange={(e) => updateSettings({ theme: e.target.value as "light" | "dark" | "system" })}
+          >
+            <option value="system">Системная</option>
+            <option value="light">Светлая</option>
+            <option value="dark">Тёмная</option>
+          </select>
+        </SettingsRow>
+        <SettingsRow label={`Размер текста — ${Math.round(settings.fontSize * 100)}%`}>
+          <input
+            type="range"
+            className={styles.slider}
+            min={75} max={200} step={25}
+            value={Math.round(settings.fontSize * 100)}
+            onChange={(e) => updateSettings({ fontSize: Number(e.target.value) / 100 })}
+          />
+        </SettingsRow>
+      </SettingsSection>
 
-      <div className={styles.settingRow}>
-        <label className={styles.settingLabel}>Блокировать трекеры</label>
-        <input
-          type="checkbox"
-          checked={settings.blockTrackers}
-          onChange={(e) => updateSettings({ blockTrackers: e.target.checked })}
+      <SettingsSection title="Поиск">
+        <SettingsRow label="Поисковая система">
+          <select
+            className={styles.select}
+            value={settings.defaultSearchEngine}
+            onChange={(e) => updateSettings({ defaultSearchEngine: e.target.value as "google" | "bing" | "duckduckgo" })}
+          >
+            <option value="google">Google</option>
+            <option value="bing">Bing</option>
+            <option value="duckduckgo">DuckDuckGo</option>
+          </select>
+        </SettingsRow>
+        <ToggleRow
+          label="Поисковые подсказки"
+          subtitle="Показывать предложения при вводе"
+          checked={settings.showSearchSuggestions}
+          onChange={(v) => updateSettings({ showSearchSuggestions: v })}
         />
-      </div>
+        <ToggleRow
+          label="Безопасный поиск"
+          subtitle="Фильтровать результаты для взрослых"
+          checked={settings.safeSearch}
+          onChange={(v) => updateSettings({ safeSearch: v })}
+        />
+      </SettingsSection>
 
-      <div className={styles.settingRow}>
-        <label className={styles.settingLabel}>Блокировать рекламу</label>
-        <input
-          type="checkbox"
+      <SettingsSection title="Конфиденциальность">
+        <ToggleRow
+          label="Блокировать рекламу"
+          subtitle="Убирать рекламные блоки"
           checked={settings.blockAds}
-          onChange={(e) => updateSettings({ blockAds: e.target.checked })}
+          onChange={(v) => updateSettings({ blockAds: v })}
         />
-      </div>
-
-      <div className={styles.settingRow}>
-        <label className={styles.settingLabel}>Не отслеживать</label>
-        <input
-          type="checkbox"
+        <ToggleRow
+          label="Блокировать трекеры"
+          subtitle="Защита от слежки сторонних сервисов"
+          checked={settings.blockTrackers}
+          onChange={(v) => updateSettings({ blockTrackers: v })}
+        />
+        <ToggleRow
+          label="Не отслеживать (DNT)"
+          subtitle="Отправлять запрос об отказе от слежки"
           checked={settings.doNotTrack}
-          onChange={(e) => updateSettings({ doNotTrack: e.target.checked })}
+          onChange={(v) => updateSettings({ doNotTrack: v })}
         />
+        <ToggleRow
+          label="Принудительный HTTPS"
+          subtitle="Переключать сайты на безопасное соединение"
+          checked={settings.httpsOnly}
+          onChange={(v) => updateSettings({ httpsOnly: v })}
+        />
+        <SettingsRow label="Куки">
+          <select
+            className={styles.select}
+            value={settings.cookiePolicy}
+            onChange={(e) => updateSettings({ cookiePolicy: e.target.value as "allow-all" | "block-third-party" | "block-all" })}
+          >
+            <option value="allow-all">Разрешить все</option>
+            <option value="block-third-party">Блокировать сторонние</option>
+            <option value="block-all">Блокировать все</option>
+          </select>
+        </SettingsRow>
+      </SettingsSection>
+
+      <SettingsSection title="Содержимое страниц">
+        <ToggleRow
+          label="JavaScript"
+          subtitle="Разрешить выполнение скриптов"
+          checked={settings.javaScriptEnabled}
+          onChange={(v) => updateSettings({ javaScriptEnabled: v })}
+        />
+        <ToggleRow
+          label="Панель закладок"
+          subtitle="Показывать под адресной строкой"
+          checked={settings.showBookmarksBar}
+          onChange={(v) => updateSettings({ showBookmarksBar: v })}
+        />
+      </SettingsSection>
+
+      <SettingsSection title="Загрузки">
+        <ToggleRow
+          label="Спрашивать место сохранения"
+          subtitle="Запрашивать папку для каждой загрузки"
+          checked={settings.askDownloadLocation}
+          onChange={(v) => updateSettings({ askDownloadLocation: v })}
+        />
+      </SettingsSection>
+
+      <SettingsSection title="Дополнительно">
+        <ToggleRow
+          label="Открывать ссылки в фоне"
+          subtitle="Не переключаться при открытии новых ссылок"
+          checked={settings.openLinksInBackground}
+          onChange={(v) => updateSettings({ openLinksInBackground: v })}
+        />
+        <ToggleRow
+          label="Очищать данные при выходе"
+          subtitle="Удалять историю и куки при закрытии"
+          checked={settings.clearDataOnExit}
+          onChange={(v) => updateSettings({ clearDataOnExit: v })}
+        />
+      </SettingsSection>
+
+      <SettingsSection title="Данные браузера">
+        {confirmClear ? (
+          <div className={styles.confirmRow}>
+            <span className={styles.confirmText}>Удалить всю историю?</span>
+            <button className={styles.dangerBtn} onClick={() => { clearHistory(); setConfirmClear(false); }}>Удалить</button>
+            <button className={styles.cancelBtn} onClick={() => setConfirmClear(false)}>Отмена</button>
+          </div>
+        ) : (
+          <button className={styles.dangerOutlineBtn} onClick={() => setConfirmClear(true)}>
+            Очистить историю
+          </button>
+        )}
+      </SettingsSection>
+
+      <SettingsSection title="О браузере">
+        <div className={styles.about}>
+          <span className={styles.aboutName}>Maximeze Browser</span>
+          <span className={styles.aboutVersion}>Версия 0.1.0 · Открытый исходный код</span>
+        </div>
+      </SettingsSection>
+
+    </div>
+  );
+}
+
+function SettingsSection({ title, children }: { title: string; children: ReactNode }) {
+  return (
+    <div className={styles.section}>
+      <div className={styles.sectionTitle}>{title}</div>
+      <div className={styles.sectionContent}>{children}</div>
+    </div>
+  );
+}
+
+function SettingsRow({ label, children }: { label: string; children: ReactNode }) {
+  return (
+    <div className={styles.settingRow}>
+      <span className={styles.settingLabel}>{label}</span>
+      {children}
+    </div>
+  );
+}
+
+function ToggleRow({ label, subtitle, checked, onChange }: {
+  label: string;
+  subtitle?: string;
+  checked: boolean;
+  onChange: (v: boolean) => void;
+}) {
+  return (
+    <div className={styles.toggleRow} onClick={() => onChange(!checked)}>
+      <div className={styles.toggleInfo}>
+        <span className={styles.toggleLabel}>{label}</span>
+        {subtitle && <span className={styles.toggleSubtitle}>{subtitle}</span>}
+      </div>
+      <div className={`${styles.toggle} ${checked ? styles.toggleOn : ""}`}>
+        <div className={styles.toggleThumb} />
       </div>
     </div>
   );

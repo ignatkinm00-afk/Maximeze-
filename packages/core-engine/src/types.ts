@@ -86,6 +86,14 @@ export interface BrowserSettings {
   blockAds: boolean;
   cookiePolicy: "allow-all" | "block-third-party" | "block-all";
   doNotTrack: boolean;
+  httpsOnly: boolean;
+  javaScriptEnabled: boolean;
+  safeSearch: boolean;
+  showSearchSuggestions: boolean;
+  fontSize: number;
+  openLinksInBackground: boolean;
+  clearDataOnExit: boolean;
+  askDownloadLocation: boolean;
   suspendInactiveTabsAfterMinutes: number | null;
   downloadPath: string;
   language: string;

@@ -10,10 +10,18 @@ export const defaultSettings: BrowserSettings = {
   blockTrackers: true,
   blockAds: true,
   cookiePolicy: "block-third-party",
-  doNotTrack: true,
+  doNotTrack: false,
+  httpsOnly: false,
+  javaScriptEnabled: true,
+  safeSearch: false,
+  showSearchSuggestions: true,
+  fontSize: 1.0,
+  openLinksInBackground: false,
+  clearDataOnExit: false,
+  askDownloadLocation: true,
   suspendInactiveTabsAfterMinutes: 30,
   downloadPath: "",
-  language: "en",
+  language: "ru",
 };
 
 export function mergeSettings(
