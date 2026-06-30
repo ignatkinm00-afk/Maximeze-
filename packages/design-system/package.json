@@ -4,21 +4,21 @@
   "description": "Maximeze shared design tokens, icons, and fonts",
   "license": "MIT",
   "main": "dist/index.js",
-  "module": "dist/index.esm.js",
+  "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
   "exports": {
     ".": {
-      "import": "./dist/index.esm.js",
+      "import": "./dist/index.mjs",
       "require": "./dist/index.js",
       "types": "./dist/index.d.ts"
     },
     "./tokens": {
-      "import": "./dist/tokens.esm.js",
+      "import": "./dist/tokens.mjs",
       "require": "./dist/tokens.js",
       "types": "./dist/tokens.d.ts"
     },
     "./icons": {
-      "import": "./dist/icons.esm.js",
+      "import": "./dist/icons.mjs",
       "require": "./dist/icons.js",
       "types": "./dist/icons.d.ts"
     },
