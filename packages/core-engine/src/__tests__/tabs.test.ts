@@ -7,7 +7,6 @@ import {
   suspendTab,
   unsuspendTab,
   getInactiveTabs,
-  updateTab,
   getActiveTab,
 } from "../tabs";
 
